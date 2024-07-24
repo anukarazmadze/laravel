@@ -20,6 +20,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
+        'logo', //for the logo
     ];
 
     /**
@@ -44,4 +46,25 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    // Jobs uploaded by this user
+    public function jobs()
+    {
+        return $this->hasMany(Job::class, 'user_id');
+    }
+
+    // Jobs that this user has applied to
+    public function appliedJobs()
+    {
+        return $this->belongsToMany(Job::class, 'job_user')->withTimestamps();
+    }
+
+    // Applications submitted by this user (job seeker)
+    public function jobApplications()
+    {
+        return $this->hasMany(JobApplication::class);
+    }
+
+    
+
 }
