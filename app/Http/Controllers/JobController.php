@@ -16,10 +16,7 @@ class JobController extends Controller
     {
         /// Fetch jobs that are not expired or soft-deleted
         $jobs = Job::with('uploader')
-            ->where(function ($query) {
-                $query->whereNull('expires_at')
-                    ->orWhere('expires_at', '>', now());
-            })
+            ->where('expires_at', '>', now())           
             ->paginate(10);
 
         // Generate query string for pagination links
@@ -200,8 +197,7 @@ class JobController extends Controller
 
     public function viewApplicants($jobId)
     {
-        $job = Job::findOrFail($jobId);
-        $applicants = $job->applicants; 
+        $job = Job::with('applicants')->findOrFail($jobId); 
 
         return view('jobs.applicants', compact('job', 'applicants'));
     }
@@ -216,7 +212,8 @@ class JobController extends Controller
         ]);
 
         // Search jobs
-        $jobs = Job::where('title', 'LIKE', "%{$query}%")
+        $jobs = Job::with('uploader')
+                    ->where('title', 'LIKE', "%{$query}%")
                     ->orWhere('description', 'LIKE', "%{$query}%")
                     ->paginate(10);
 

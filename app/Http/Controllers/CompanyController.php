@@ -8,15 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 class CompanyController extends Controller
 {
-    public function dashboard()
-    {
-        // Ensure the user is a company
-        if (Auth::user()->role !== 'company') {
-            return redirect()->route('jobs.index')->with('error', 'Unauthorized action.');
-        }
-
-        return view('company.dashboard');
-    }
+    
 
     public function index(Request $request)
     {
@@ -27,10 +19,7 @@ class CompanyController extends Controller
         // Fetch active jobs
         $activeJobs = Job::with(['uploader', 'applications'])
             ->where('user_id', Auth::id())
-            ->where(function ($query) {
-                $query->whereNull('expires_at')
-                    ->orWhere('expires_at', '>', now());
-            })
+            ->where('expires_at', '>', now())           
             ->paginate(10);
 
         $deletedJobs = Job::onlyTrashed()

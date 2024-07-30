@@ -61,7 +61,7 @@
         </table>
 
         <!-- Pagination Links -->
-        {{ $jobs->appends(request()->query())->links() }}
+        {{ $jobs->links() }}
     @else
         <p>No jobs found.</p>
     @endif
