@@ -15,12 +15,14 @@ class ApplicantController extends Controller
         return view('company.applications', compact('applicant'));
     }
 
-    // Method to show jobs the user has applied to
+    // ApplicantController.php
     public function showAppliedJobs()
     {
         $user = Auth::user();
-        $appliedJobs = $user->appliedJobs; // Retrieve the jobs the user has applied to
+        $jobApplications = JobApplication::where('user_id', $user->id)
+            ->with('job')
+            ->get();
 
-        return view('user.applied_jobs', compact('appliedJobs'));
+        return view('user.applied_jobs', compact('jobApplications'));
     }
 }

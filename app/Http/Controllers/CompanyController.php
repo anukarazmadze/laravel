@@ -27,7 +27,7 @@ class CompanyController extends Controller
             ->get(); // Fetch deleted jobs
 
         // Fetch expired jobs
-        $expiredJobs = Job::with('applicants')
+        $expiredJobs = Job::with('applications')
             ->where('user_id', Auth::id())
             ->where('expires_at', '<=', now())
             ->whereNull('deleted_at')
@@ -77,7 +77,7 @@ class CompanyController extends Controller
             return redirect()->route('jobs.index')->with('error', 'Unauthorized action.');
         }
 
-        $job = Job::with('applicants')->findOrFail($id);
+        $job = Job::with('applications')->findOrFail($id);
 
         return view('company.expired_job_detail', compact('job'));
     }

@@ -163,6 +163,7 @@ class JobController extends Controller
             'resume' => 'required|file|mimes:pdf,doc,docx|max:2048',
         ]);
 
+
         $resumePath = $request->file('resume')->store('resumes', 'local');
 
         JobApplication::create([
@@ -175,9 +176,6 @@ class JobController extends Controller
             'phone_number' => $validated['phone_number'],
             'resume' => $resumePath,
         ]);
-
-        // Attach the job to the user and vice versa
-        $job->applicants()->attach(auth()->id());
 
         return redirect()->route('jobs.show', $job->id)->with('success', 'Your application has been submitted successfully.');
     }
@@ -197,9 +195,10 @@ class JobController extends Controller
 
     public function viewApplicants($jobId)
     {
-        $job = Job::with('applicants')->findOrFail($jobId); 
+        $job = Job::findOrFail($jobId);
+        $applications = $job->applications;
 
-        return view('jobs.applicants', compact('job', 'applicants'));
+        return view('jobs.applicants', compact('job', 'applications'));
     }
 
     public function search(Request $request)

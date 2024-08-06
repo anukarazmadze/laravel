@@ -26,12 +26,6 @@ class Job extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    // Users who applied to this job
-    public function applicants()
-    {
-        return $this->belongsToMany(User::class, 'job_user')->withTimestamps();
-    }
-
     public function applications()
     {
         return $this->hasMany(JobApplication::class);

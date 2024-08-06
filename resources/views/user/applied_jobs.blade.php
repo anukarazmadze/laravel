@@ -15,16 +15,16 @@
             </tr>
         </thead>
         <tbody>
-            @forelse ($appliedJobs as $job)
+            @forelse ($jobApplications as $application)
             <tr>
-                <td><a href="{{ route('jobs.show', $job->id) }}">{{ $job->title }}</a></td>
+                <td><a href="{{ route('jobs.show', $application->job->id) }}">{{ $application->job->title }}</a></td>
                 <td>
-                    @if($job->uploader->logo)
-                        <img src="{{ Storage::url($job->uploader->logo) }}" alt="Company Logo" class="rounded-circle" style="width: 30px; height: 30px; object-fit: cover;">
+                    @if($application->job->uploader->logo)
+                        <img src="{{ Storage::url($application->job->uploader->logo) }}" alt="Company Logo" class="rounded-circle" style="width: 30px; height: 30px; object-fit: cover;">
                     @endif
-                    {{ $job->uploader->name }}
+                    {{ $application->job->uploader->name }}
                 </td>
-                <td>{{ $job->pivot->created_at->format('d-m-Y') }}</td>
+                <td>{{ $application->created_at->format('d-m-Y') }}</td>
             </tr>
             @empty
             <tr>

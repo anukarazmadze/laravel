@@ -24,7 +24,7 @@
                     <td>{{ $job->title }}</td>
                     <td>{{ $job->location }}</td>
                     <td>{{ $job->salary }}</td>
-                    <td>{{ $job->expires_at ? $job->expires_at->format('d-m-Y') : 'No Expiry' }}</td>
+                    <td>{{ $job->expires_at ->format('d-m-Y')}}</td>
                     <td>
                         <a class="btn btn-info btn-sm" href="{{ route('jobs.show', $job->id) }}">View</a>
                         <a class="btn btn-warning btn-sm" href="{{ route('jobs.edit', $job->id) }}">Edit</a>
